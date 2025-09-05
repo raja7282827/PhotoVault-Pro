@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photo Gallery</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+      /* Reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        background: url("./flower7.jpg") no-repeat center center/cover;
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      /* Dark overlay */
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        z-index: -1;
+      }
+
+      /* Bubble background */
+      .bubbles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: -2; /* content ke peeche */
+      }
+
+      .bubble {
+        position: absolute;
+        bottom: -100px;
+        border-radius: 50%;
+        animation: rise 10s infinite ease-in;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 0, 150, 0.6),
+          rgba(0, 200, 255, 0.4)
+        );
+        box-shadow: 0 0 15px rgba(255, 0, 200, 0.6);
+      }
+
+      @keyframes rise {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-120vh) scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        background: url("./flower7.jpg") no-repeat center center/cover;
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Dark overlay + blur */
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        z-index: -1;
+      }
+
+      /* Navbar */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 12px 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      nav ul {
+        display: flex;
+        gap: 25px;
+        list-style: none;
+      }
+
+      nav ul li {
+        position: relative;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      /* Hover glowing effect */
+      nav ul li a:hover {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 10px rgba(255, 77, 210, 0.7);
+        color: #ffccff;
+      }
+
+      /* Active page highlight */
+      nav ul li a.active {
+        background: linear-gradient(90deg, #ff4da6, #ff1e90);
+        box-shadow: 0 0 12px rgba(255, 77, 210, 0.7);
+        color: white;
+      }
+
+      /* Gallery */
+      #first-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 70px auto;
+        padding: 20px;
+      }
+
+      .grid-gallery {
+        --size: 100px;
+        display: grid;
+        grid-template-columns: repeat(6, var(--size));
+        grid-auto-rows: var(--size);
+        gap: 5px;
+        place-items: start center;
+        margin-bottom: var(--size);
+      }
+
+      .grid-gallery img {
+        width: calc(var(--size) * 2);
+        height: calc(var(--size) * 2);
+        object-fit: cover;
+        grid-column: auto / span 2;
+        border-radius: 5px;
+        clip-path: path(
+          "M90,10 C100,0 100,0 110,10 190,90 190,90 190,90 200,100 200,100 190,110 190,110 110,190 110,190 100,200 100,200 90,190 90,190 10,110 10,110 0,100 0,100 10,90Z"
+        );
+      }
+      .grid-gallery img:nth-child(5n - 1) {
+        grid-column: 2 / span 2;
+      }
+      .grid-gallery:has(img:hover) img:not(:hover) {
+        filter: brightness(0.5) contrast(0.5);
+      }
+      .grid-gallery img {
+        /* ... */
+        transition: clip-path 0.25s, filter 0.75s;
+      }
+
+      .grid-gallery img:hover {
+        clip-path: path(
+          "M0,0 C0,0 200,0 200,0 200,0 200,100 200,100 200,100 200,200 200,200 200,200 100,200 100,200 100,200 100,200 0,200 0,200 0,100 0,100 0,100 0,100 0,100Z"
+        );
+        transition: clip-path 0.25s, filter 0.25s;
+        z-index: 1;
+      }
+
+      .grid-gallery a:focus {
+        outline: 1px dashed black;
+        outline-offset: -5px;
+      }
+
+      /* Heading + paragraph */
+      h1 {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 2.2rem;
+        color: #ffebf7;
+        text-shadow: 0 0 10px rgba(255, 100, 200, 0.8);
+      }
+
+      p {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(6px);
+        border-radius: 12px;
+        padding: 12px;
+        max-width: 800px;
+        margin: 20px auto;
+        text-align: center;
+        font-style: italic;
+        color: #f8f9fa;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      button {
+        padding: 12px;
+        width: 100%;
+        background: linear-gradient(90deg, #ff4da6, #ff6fcf);
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(255, 77, 166, 0.6);
+      }
+
+      /* Social Links */
+      .social-links {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        color: #ff4da6;
+        margin: 0 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .social-links a:hover {
+        color: #ffd700;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        nav ul {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        .grid-gallery img {
+          height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body id="home-container">
+    <div class="bubbles"></div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="signup.html" class="nav-link">Signup</a></li>
+        <li><a href="login.html" class="nav-link">Login</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div id="first-container">
+      <!-- Gallery -->
+      <article class="grid-gallery" id="gallery">
+        <img src="./pinkFlower.jpg" alt="description of picture 1" />
+        <img src="./flower2.jpg" alt="description of picture 2" />
+        <img src="./flower3.jpg" alt="description of picture 3" />
+        <img src="./flower4.jpg" alt="description of picture 4" />
+        <img src="./flower5.jpg" alt="description of picture 5" />
+        <img src="./flower6.jpg" alt="description of picture 6" />
+        <img src="./flower7.jpg" alt="description of picture 7" />
+        <img src="./flower8.jpg" alt="description of picture 8" />
+      </article>
+    </div>
+
+    <div>
+      <h1 id="change-element">This is a Photo Gallery</h1>
+
+      <p>
+        Welcome to my photo gallery! 🌸 A collection of moments, creativity, and
+        memories captured beautifully. Hover over the photos to explore them in
+        a unique style.
+      </p>
+    </div>
+
+    <script src="script.js">
+      
+    </script>
+  </body>
+</html>

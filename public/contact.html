@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Page</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  
+    /* ===== Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Navbar ===== */
+nav {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 0;
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+nav ul li a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.6);
+}
+
+/* ===== Form Container ===== */
+.form-container {
+  width: 420px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 25px;
+  margin-top: 40px;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #fff;
+}
+
+.form-container label {
+  display: block;
+  text-align: left;
+  margin: 12px 0 6px;
+  font-weight: 500;
+  color: #eee;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+  resize: none;
+  transition: 0.3s;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  border: 1px solid #ff4da6;
+  box-shadow: 0 0 12px rgba(255, 77, 166, 0.8);
+}
+
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.terms {
+  text-align: left;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.terms a {
+  color: #ff66c4;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+.form-container button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #ff4da6, #ff1e90);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+.form-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(255, 77, 166, 0.8);
+}
+
+/* ===== Social Links ===== */
+.social-links {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.social-links h3 {
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-links a:hover {
+  background: #ff4da6;
+  box-shadow: 0 0 12px rgba(255,77,166,0.7);
+}
+
+.social-links i {
+  margin-right: 8px;
+}
+
+/* ===== Terms Section ===== */
+.terms-section {
+  max-width: 700px;
+  background: rgba(255,255,255,0.1);
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+#contact-container {
+  position: relative;
+  background-image: url(./flower5.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border-radius: 15px; /* thoda rounded corner look */
+}
+
+/* Overlay blur effect */
+#contact-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3); /* dark overlay for contrast */
+  backdrop-filter: blur(6px);   /* blur intensity */
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1;
+}
+
+/* Inside content ko upar laane ke liye */
+#contact-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+  </style>
+</head>
+<body id="contact-container">
+  <div class="bubbles"></div> 
+  <!-- Navigation -->
+  <nav> 
+    <ul>
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="signup.html" class="nav-link">Signup</a></li>
+      <li><a href="login.html" class="nav-link">Login</a></li>
+      <li><a href="contact.html" class="nav-link active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contact Form -->
+  <div class="form-container">
+    <h2>Contact Us</h2>
+    <form action="/contact" method="post">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Write your message..." rows="4" required></textarea>
+
+      <div class="terms">
+        <input type="checkbox" id="agree" required>
+        <label for="agree"> I agree to the <a href="#terms">Terms & Conditions</a></label>
+      </div>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Social Media Links -->
+  <div class="social-links">
+    <h3>Follow Us</h3>
+    <a href="https://instagram.com/noty_kid_18" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+    <a href="https://www.facebook.com/share/1CVMQ4gm96/"  target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+    <a href="mailto:sbar5818@gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
+  </div>
+
+  <!-- Terms and Conditions -->
+  <div id="terms" class="terms-section">
+    <h3>Terms & Conditions</h3>
+    <p>
+      By using this website and submitting the contact form, you agree to provide accurate 
+      information and not use the form for spam. We respect your privacy and will not 
+      share your data with third parties without your consent.
+    </p>
+  </div>
+
+  <!-- <script src="script.js"></script> -->
+<script src="script.js"></script>
+</body>
+</html>

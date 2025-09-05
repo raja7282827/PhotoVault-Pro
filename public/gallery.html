@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery Page</title>
+    <style>
+      /* Background */
+      #gallery-container {
+        background-image: url(./flower5.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Nav list */
+      nav ul {
+        display: flex;
+        gap: 35px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Nav items */
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: 600;
+        padding: 10px 18px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      /* Hover effect */
+      nav ul li a:hover {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 12px rgba(255, 77, 210, 0.7);
+        color: #ffccff;
+      }
+
+      /* Active link */
+      nav ul li a.active {
+        background: linear-gradient(90deg, #ff4da6, #ff1e90);
+        box-shadow: 0 0 14px rgba(255, 77, 210, 0.7);
+        color: white;
+      }
+
+      /* Body top padding so content not hidden behind navbar */
+      body {
+        margin: 0;
+        padding-top: 80px; /* navbar height ka gap */
+      }
+
+      /* Upload Section */
+      .upload-section {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .upload-section input[type="file"] {
+        margin: 10px 0;
+        padding: 8px;
+      }
+      .upload-section button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        color: white;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      .upload-section button:hover {
+        background: linear-gradient(90deg, #2575fc, #6a11cb);
+      }
+
+      /* Gallery */
+      #gallery {
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        padding: 10px;
+        max-width: 1200px;
+      }
+      .photo-item {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+        transition: 0.2s;
+      }
+      .photo-item:hover {
+        transform: translateY(-3px);
+      }
+      .photo-item img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+      /* Fullscreen Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        padding-top: 50px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+      .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 85%;
+        max-height: 90vh;
+        border-radius: 10px;
+      }
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .close:hover {
+        color: #f00;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 40px;
+        padding: 15px;
+        text-align: center;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
+      }
+      /* Gallery photo card */
+      .photo-item {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border-radius: 16px;
+        padding: 15px;
+        margin: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out;
+      }
+      .photo-item:hover {
+        transform: scale(1.03);
+      }
+
+      .user-name {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #eee;
+      }
+
+      .uploaded-photo {
+        width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+      .uploaded-photo:hover {
+        transform: scale(1.05);
+      }
+
+      /* Buttons */
+      .photo-actions button,
+      .download-btn {
+        margin: 5px;
+        padding: 6px 12px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s ease-in-out;
+      }
+      .like-btn {
+        background: rgba(255, 0, 100, 0.3);
+        color: white;
+      }
+      .like-btn:hover {
+        background: rgba(255, 0, 100, 0.6);
+      }
+
+      .delete-btn {
+        background: rgba(255, 0, 0, 0.3);
+        color: white;
+      }
+      .delete-btn:hover {
+        background: rgba(255, 0, 0, 0.6);
+      }
+
+      .download-btn {
+        background: rgba(0, 150, 255, 0.3);
+        text-decoration: none;
+        color: white;
+        padding: 6px 12px;
+        display: inline-block;
+      }
+      .download-btn:hover {
+        background: rgba(0, 150, 255, 0.6);
+      }
+
+      /* Comment box */
+      .comment-input {
+        width: 70%;
+        padding: 6px;
+        border-radius: 8px;
+        border: none;
+        margin-top: 10px;
+        /* color: white; */
+      }
+      .comment-post {
+        background: rgba(0, 255, 150, 0.3);
+        border: none;
+        padding: 6px 12px;
+        margin-left: 6px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+      }
+      .comment-post:hover {
+        background: rgba(0, 255, 150, 0.6);
+      }
+      /* Comment text ko white karne ke liye */
+      .comment {
+        color: #fff !important;
+      }
+
+      /* Agar username bold aur white chahiye */
+      .comment strong {
+        color: #fff;
+      }
+
+      /* Upload form */
+      #uploadForm {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 20px;
+        max-width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        text-align: center;
+      }
+      #uploadForm input,
+      #uploadForm button {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 12px;
+        border: none;
+        width: 90%;
+      }
+      #uploadForm button {
+        background: rgba(0, 200, 255, 0.4);
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      #uploadForm button:hover {
+        background: rgba(0, 200, 255, 0.7);
+      }
+
+      /* ===== MODAL FULLSCREEN ===== */
+      #photoModal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        padding: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+      }
+      #modalImg {
+        display: block;
+        margin: auto;
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        animation: zoomIn 0.3s ease;
+      }
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .close:hover {
+        color: #f00;
+      }
+      /* Bubble background */
+.bubbles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: -1; /* content ke peeche rahe */
+}
+
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: rise 10s infinite ease-in;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) scale(0.5);
+    opacity: 0;
+  }
+}
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  border-radius: 50%;
+  animation: rise 10s infinite ease-in;
+  background: radial-gradient(circle at 30% 30%, 
+              rgba(255, 0, 150, 0.6), 
+              rgba(0, 200, 255, 0.4));
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.6);
+}
+
+
+    </style>
+  </head>
+  <body id="gallery-container">
+     <div class="bubbles"></div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <p
+      style="
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 2px 4px black;
+      "
+    >
+      WELCOME TO PHOTO GALLERY
+    </p>
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+      <h3 style="color: white">Upload a Photo Within 10 MB</h3>
+      <form id="uploadForm">
+        <input
+          type="file"
+          name="photo"
+          id="photoInput"
+          accept="image/*"
+          required
+        />
+        <br />
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+
+    <!-- Gallery -->
+    <div id="gallery"></div>
+
+    <!-- Fullscreen Modal -->
+    <div id="photoModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="modalImg" />
+    </div>
+
+    <footer>
+      <p>&copy; 2025 PhotoVault Pro | All Rights Reserved</p>
+    </footer>
+
+    <script src="gallery.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
