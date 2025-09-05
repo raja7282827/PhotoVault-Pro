@@ -6,20 +6,20 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
   session({
-    secret: "super-secret-key",
+    secret: process.env.SESSION_SECRET,   // <-- hardcoded ki jagah env se le
     resave: false,
     saveUninitialized: false,
-    cookie: { 
-      secure: false,   // 🔑 Render free plan ke liye
-      httpOnly: true, 
-      maxAge: 1000 * 60 * 60 * 24 
+    cookie: {
+      secure: false, // Render free plan ke liye false
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
