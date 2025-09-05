@@ -16,9 +16,14 @@ app.use(
     secret: "super-secret-key",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    cookie: { 
+      secure: false,   // 🔑 Render free plan ke liye
+      httpOnly: true, 
+      maxAge: 1000 * 60 * 60 * 24 
+    },
   })
 );
+
 
 // static files
 app.use(express.static(path.join(__dirname, "public")));
