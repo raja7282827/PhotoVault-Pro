@@ -29,6 +29,9 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+
+console.log("Mongo URI:", process.env.MONGO_URI);
+
 // MongoDB connect with DotEnv
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log(" MongoDB Atlas connected"))
